@@ -4,4 +4,6 @@ module.exports = function(app){
   app.get('/user', user.getUsers);
 
   app.post('/user', user.createUser);
+
+  app.delete('/user', user.deleteUser);
 };

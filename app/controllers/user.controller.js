@@ -23,3 +23,12 @@ exports.createUser = function(req, res){
     return res.json(user);
   });
 };
+
+exports.deleteUser = function(req, res){
+  User.remove(function(err, users){
+    if(err){
+      return res.json(err);
+    }
+    exports.getUsers(req, res);
+  });
+};

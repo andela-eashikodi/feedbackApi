@@ -4,4 +4,6 @@ module.exports = function(app){
   app.get('/biz', biz.getBiz);
 
   app.post('/biz', biz.createBiz);
+
+  app.delete('/biz', biz.deleteBiz);
 };

@@ -23,3 +23,12 @@ exports.createBiz = function(req, res){
     return res.json(user);
   });
 };
+
+exports.deleteBiz = function(req, res){
+  Biz.remove(function(err, users){
+    if(err){
+      return res.json(err);
+    }
+    exports.getBiz(req, res);
+  });
+};
