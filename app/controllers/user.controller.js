@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 exports.getUsers = function(req, res){
-  User.find({}).exec(function(err, users){
+  User.find(function(err, users){
     if(err){
       return res.json(err);
     }
