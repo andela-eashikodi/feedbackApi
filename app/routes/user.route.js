@@ -1,9 +1,18 @@
+"use strict";
+var express = require('express');
+
+var router = express.Router();
+
 module.exports = function(app){
   var user = require('../controllers/user.controller');
 
-  app.get('/user', user.getUsers);
+  router.route('/authenticate')
+    .post(user.auth);
+    
+  router.route('/user')
+    .post(user.createUser)
+    .get(user.getUsers)
+    .delete(user.deleteUser);
 
-  app.post('/user', user.createUser);
-
-  app.delete('/user', user.deleteUser);
+  app.use('/api', router);
 };
