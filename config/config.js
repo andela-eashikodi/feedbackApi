@@ -2,9 +2,11 @@
 
 module.exports = {
   production: {
-    'url': process.env.MONGOLAB_URI
+    'url': process.env.MONGOLAB_URI,
+    'secret': "iloveshopal"
   },
   development: {
-    'url': 'mongodb://localhost/findersfeedback'
+    'url': 'mongodb://localhost/findersfeedback',
+    'secret': "iloveshopal"
   }
 };
