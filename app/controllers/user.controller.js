@@ -23,7 +23,7 @@ exports.auth = function(req, res) {
       if (!validPassword) {
         res.json ({
           success:false,
-          message: 'Auth failed. wrong password'
+          message: 'auth failed'
         });
       }
       else {
