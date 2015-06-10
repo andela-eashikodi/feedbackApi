@@ -10,9 +10,9 @@ module.exports = function(app) {
  
   app.get('/auth/facebook/callback', 
     passport.authenticate('facebook', { 
-      failureRedirect: '/login' }),
+      failureRedirect: 'http://andela-eashikodi.github.io/shopal/#/home' }),
     function(req, res) {
-      res.redirect('http://localhost:8080/#/user/dashboard');
+      res.redirect('http://andela-eashikodi.github.io/shopal/#/user/dashboard');
     });
 
   app.get('/auth/facebook', passport.authenticate('facebook', { scope : [
