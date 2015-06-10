@@ -18,11 +18,14 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res){
-  res.send('welcome to finders.com');
+  res.send('welcome to shopal.ng');
 });
 
 require('./app/routes/user.route')(app);
-require('./app/routes/biz.route')(app);
+require('./app/routes/facebook.route')(app);
+
+
+require('./passport')(app);
 
 var port = process.env.PORT || 4000;
 
