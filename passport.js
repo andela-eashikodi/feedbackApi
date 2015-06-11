@@ -4,6 +4,7 @@ var passport = require('passport'),
     mongoose =require('mongoose'),
     FacebookStrategy = require('passport-facebook').Strategy,
     User =  mongoose.model('FacebookUser');
+    var userController = require("./app/controllers/user.controller")
 
 module.exports = function(app) {
   app.use(passport.initialize());
@@ -12,11 +13,13 @@ module.exports = function(app) {
     passport.authenticate('facebook', { 
       failureRedirect: '/login' }),
     function(req, res) {
-      res.redirect('http://andela-eashikodi.github.io/shopal/#/user/dashboard');
+      var jwttoken = userController.generateToken(req.user);
+      // console.log(jwttoken);
+      res.redirect('http://localhost:8080/#/user/dashboard?token='+jwttoken);
     });
 
   app.get('/auth/facebook', passport.authenticate('facebook', { scope : [
-    "email", "user_location", "user_hometown", "user_birthday"
+    "email"
     ]
   }));
 
@@ -33,7 +36,7 @@ module.exports = function(app) {
     clientID: '815850818511954',
     clientSecret: '9aa55fcd820aec211155496acc4bf017',
     callbackURL: '/auth/facebook/callback',
-    // profileFields: ['id', 'displayName', 'photos', 'email'],
+    profileFields: ['id', 'displayName', 'photos','gender','email','first_name', 'last_name'],
     enableProof: false 
   },
   function(accessToken, refreshToken, profile, done){
@@ -43,8 +46,8 @@ module.exports = function(app) {
       if(err){
         done(err);
       }
+      console.log(1,profile._json);
       if(user){
-        // console.log(profile);
         return done(null, user);
       }
       else {
@@ -52,8 +55,8 @@ module.exports = function(app) {
         var newUser = new User();
 
         newUser.facebook.id = result.id;
-        newUser.facebook.firstName = result.first_name;
-        newUser.facebook.lastName = result.last_name;
+        newUser.firstName = result.first_name;
+        newUser.lastName = result.last_name;
 
         newUser.save(function(err){
           if(err){

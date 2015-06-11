@@ -32,7 +32,7 @@ exports.auth = function(req, res) {
         });
 
         res.json({
-          user: user.firstname,
+          user: user.email,
           success:true,
           message: 'token Created',
           token:token
@@ -41,7 +41,12 @@ exports.auth = function(req, res) {
     }
   });
 };
-
+exports.generateToken = function(user){
+  var token = jwt.sign(user, config[process.env.NODE_ENV]['secret'],{
+      expiresInMinutes:1440
+  });
+  return token;
+}
 exports.verifyToken = function(req, res, next){
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
@@ -65,11 +70,21 @@ exports.verifyToken = function(req, res, next){
 };
 
 exports.createUser = function(req, res){
-  User.create(req.body, function(err, user){
-    if(err){
-      return res.json(err);
+  User.findOne({email: req.body.email}, function(err, user){
+    if(user) {
+      res.json({
+        sucess:false,
+        message: 'user email taken'
+      });
     }
-    return res.json(user);
+    else {
+      User.create(req.body, function(err, user){
+        if(err){
+          return res.json(err);
+        }
+        return res.json(user);
+      });
+    }
   });
 };
 
@@ -92,7 +107,17 @@ exports.deleteAll = function(req, res){
 };
 
 exports.findUser = function(req, res){
-  User.find({email: req.params.email}, function(err, user){
+  
+  User.findOne({email: req.params.email}, function(err, user){
+    if(err){
+      return res.json(err);
+    }
+    return res.json(user);
+  });
+};
+
+exports.getMe = function(req, res){
+  User.findOne({email: req.decoded.email}, function(err, user){
     if(err){
       return res.json(err);
     }
