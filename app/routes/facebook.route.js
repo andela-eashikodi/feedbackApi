@@ -5,14 +5,16 @@ var router = express.Router();
 
 module.exports = function(app){
   var user = require('../controllers/facebook.controller');
-
-  // router.route('/authenticate')
-  //   .post(user.auth);
     
-  router.route('/facebookUser')
-    // .post(user.createUser)
-    .get(user.getUsers);
-    // .delete(user.deleteUser);
+  router.route('/facebookUsers')
+    .get(user.getUsers)
+    .post(user.createUser)
+    .delete(user.deleteAll);
+
+  router.route('/facebookUser/:id')
+    .get(user.findUser)
+    .put(user.updateUser)
+    .delete(user.deleteUser);
 
   app.use('/api', router);
 };

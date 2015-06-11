@@ -9,9 +9,14 @@ module.exports = function(app){
   router.route('/authenticate')
     .post(user.auth);
     
-  router.route('/user')
-    .post(user.createUser)
+  router.route('/users')
     .get(user.getUsers)
+    .post(user.createUser)
+    .delete(user.deleteAll);
+
+  router.route('/user/:email')
+    .get(user.findUser)
+    .put(user.updateUser)
     .delete(user.deleteUser);
 
   app.use('/api', router);

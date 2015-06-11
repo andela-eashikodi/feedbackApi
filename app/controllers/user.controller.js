@@ -82,11 +82,41 @@ exports.getUsers = function(req, res){
   });
 };
 
-exports.deleteUser = function(req, res){
+exports.deleteAll = function(req, res){
   User.remove(function(err, users){
     if(err){
       return res.json(err);
     }
     exports.getUsers(req, res);
+  });
+};
+
+exports.findUser = function(req, res){
+  User.find({email: req.params.email}, function(err, user){
+    if(err){
+      return res.json(err);
+    }
+    return res.json(user);
+  });
+};
+
+exports.updateUser = function(req, res){
+  User.update({email : req.params.email}, req.body, function(err, user){
+    if(err){
+      return res.json(err);
+    }
+    exports.findUser(req, res);
+  });
+};
+
+exports.deleteUser = function(req, res){
+  User.remove({email : req.params.email}, function(err, user){
+    if(err){
+      return res.json(err);
+    }
+    res.json({
+      success: true,
+      message: 'user deleted'
+    });
   });
 };
