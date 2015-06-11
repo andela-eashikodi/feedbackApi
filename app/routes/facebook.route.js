@@ -1,9 +1,18 @@
+"use strict";
+var express = require('express');
+
+var router = express.Router();
+
 module.exports = function(app){
-  var User = require('../controllers/facebook.controller');
+  var user = require('../controllers/facebook.controller');
 
-  app.get('/facebookUser', User.getUsers);
+  // router.route('/authenticate')
+  //   .post(user.auth);
+    
+  router.route('/facebookUser')
+    // .post(user.createUser)
+    .get(user.getUsers);
+    // .delete(user.deleteUser);
 
-  app.post('/facebookUser', User.createUser);
-
-  app.delete('/facebookUser', User.deleteUsers);
+  app.use('/api', router);
 };

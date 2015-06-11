@@ -10,7 +10,7 @@ module.exports = function(app) {
  
   app.get('/auth/facebook/callback', 
     passport.authenticate('facebook', { 
-      failureRedirect: 'http://andela-eashikodi.github.io/shopal/#/home' }),
+      failureRedirect: '/login' }),
     function(req, res) {
       res.redirect('http://andela-eashikodi.github.io/shopal/#/user/dashboard');
     });
@@ -44,7 +44,7 @@ module.exports = function(app) {
         done(err);
       }
       if(user){
-        console.log(profile);
+        // console.log(profile);
         return done(null, user);
       }
       else {

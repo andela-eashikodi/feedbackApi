@@ -32,6 +32,7 @@ exports.auth = function(req, res) {
         });
 
         res.json({
+          user: user.firstname,
           success:true,
           message: 'token Created',
           token:token
