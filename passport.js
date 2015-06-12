@@ -16,7 +16,7 @@ module.exports = function(app) {
       var userInfo = req.user.firstname;
       // var jwttoken = userController.generateToken(req.user);
       // console.log(jwttoken);
-      res.redirect('http://andela-eashikodi.github.io/shopal/#/user/dashboard?user='+userInfo);
+      res.redirect('http://andela-eashikodi.github.io/shopal/#/user/dashboard');
     });
 
   app.get('/auth/facebook', passport.authenticate('facebook', { scope : [
