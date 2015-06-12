@@ -18,8 +18,9 @@ module.exports = function(app){
     .get(user.findUser)
     .put(user.updateUser)
     .delete(user.deleteUser);
+
   router.route("/me")
-    .post(user.verifyToken,user.getMe);
+    .post(user.getMe);
 
   app.use('/api', router);
 };
