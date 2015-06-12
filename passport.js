@@ -11,12 +11,12 @@ module.exports = function(app) {
  
   app.get('/auth/facebook/callback', 
     passport.authenticate('facebook', { 
-      failureRedirect: 'http://localhost:8080/#/' }),
+      failureRedirect: 'http://andela-eashikodi.github.io/shopal/#/' }),
     function(req, res) {
       var userInfo = req.user.firstname;
       // var jwttoken = userController.generateToken(req.user);
       // console.log(jwttoken);
-      res.redirect('http://localhost:8080/#/user/dashboard?user='+userInfo);
+      res.redirect('http://andela-eashikodi.github.io/shopal/#/user/dashboard?user='+userInfo);
     });
 
   app.get('/auth/facebook', passport.authenticate('facebook', { scope : [
