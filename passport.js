@@ -1,21 +1,22 @@
 "use strict";
-require('./app/models/facebook.model');
+require('./app/models/user.model');
 var passport = require('passport'),
     mongoose =require('mongoose'),
     FacebookStrategy = require('passport-facebook').Strategy,
-    User =  mongoose.model('FacebookUser');
-    var userController = require("./app/controllers/user.controller")
+    User =  mongoose.model('User'),
+    userController = require("./app/controllers/user.controller");
 
 module.exports = function(app) {
   app.use(passport.initialize());
  
   app.get('/auth/facebook/callback', 
     passport.authenticate('facebook', { 
-      failureRedirect: '/login' }),
+      failureRedirect: 'http://localhost:8080/#/' }),
     function(req, res) {
-      var jwttoken = userController.generateToken(req.user);
+      var userInfo = req.user.firstname;
+      // var jwttoken = userController.generateToken(req.user);
       // console.log(jwttoken);
-      res.redirect('http://localhost:8080/#/user/dashboard?token='+jwttoken);
+      res.redirect('http://localhost:8080/#/user/dashboard?user='+userInfo);
     });
 
   app.get('/auth/facebook', passport.authenticate('facebook', { scope : [
@@ -40,23 +41,29 @@ module.exports = function(app) {
     enableProof: false 
   },
   function(accessToken, refreshToken, profile, done){
-    // console.log("profile");
-
-    User.findOne({'facebook.id': profile.id}, function(err, user){
+    User.findOne({'user_id': profile.id}, function(err, user){
       if(err){
         done(err);
       }
-      console.log(1,profile._json);
+      // console.log(1,profile._json);
+      var localStorage;
       if(user){
+        // localStorage.setItem('userName', angular.toJson(profile._json.first_name));
         return done(null, user);
       }
       else {
         var result = profile._json;
+
+        // localStorage.setItem('userName', angular.toJson(result.first_name));
+
         var newUser = new User();
 
-        newUser.facebook.id = result.id;
-        newUser.firstName = result.first_name;
-        newUser.lastName = result.last_name;
+        newUser.user_id = result.id;
+        newUser.firstname = result.first_name;
+        newUser.lastname = result.last_name;
+        newUser.email = result.email;
+        newUser.gender = result.gender;
+        newUser.password = "default";
 
         newUser.save(function(err){
           if(err){
@@ -68,13 +75,6 @@ module.exports = function(app) {
         });
       }
     });
-
-    if(profile) {
-      return done(null, profile);
-    }
-    else {
-      return done(null, false);
-    }
   }));
 };
 
