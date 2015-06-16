@@ -3,10 +3,15 @@ var mongoose = require('mongoose');
 
 require('../models/business.model');
 
+require('../models/user.model');
+
 var Business = mongoose.model('Business');
 
 exports.createBusiness = function(req, res) {
-	Business.create(req.body, function(err, business) {
+	var business = new Business(req.body);
+	req.body.created_by = req.created_by;
+
+	business.save(req.body, function(err, business) {
 		if(err) {
 			return res.json(err);
 		}
@@ -15,7 +20,7 @@ exports.createBusiness = function(req, res) {
 };
 
 exports.getBusiness = function(req, res) {
-	Business.find(function(err, business) {
+	Business.find({}).populate('created_by').exec(function(err, business) {
 		if(err) {
 			return res.json(err);
 		}

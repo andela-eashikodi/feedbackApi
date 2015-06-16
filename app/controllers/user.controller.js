@@ -117,7 +117,7 @@ exports.findUser = function(req, res){
 };
 
 exports.getMe = function(req, res){
-  User.findOne({email: req.decoded.email}, function(err, user){
+  User.find({firstname: req.params.firstname}, function(err, user){
     if(err){
       return res.json(err);
     }
