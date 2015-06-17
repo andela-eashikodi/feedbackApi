@@ -63,7 +63,6 @@ module.exports = function(app) {
         newUser.lastname = result.last_name;
         newUser.email = result.email;
         newUser.gender = result.gender;
-        newUser.password = "default";
 
         newUser.save(function(err){
           if(err){

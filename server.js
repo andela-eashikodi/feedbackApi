@@ -22,7 +22,6 @@ app.get('/', function(req, res){
 });
 
 require('./app/routes/user.route')(app);
-require('./app/routes/facebook.route')(app);
 require('./app/routes/business.route')(app);
 
 require('./passport')(app);
