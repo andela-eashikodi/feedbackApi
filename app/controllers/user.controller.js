@@ -32,6 +32,7 @@ exports.auth = function(req, res) {
         });
 
         res.json({
+          id: user._id,
           user: user.firstname,
           success:true,
           message: 'token Created',
@@ -117,7 +118,7 @@ exports.findUser = function(req, res){
 };
 
 exports.getMe = function(req, res){
-  User.find({firstname: req.params.firstname}, function(err, user){
+  User.find({_id: req.params.id}, function(err, user){
     if(err){
       return res.json(err);
     }
