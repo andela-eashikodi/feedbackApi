@@ -8,10 +8,27 @@ var businessSchema = new mongoose.Schema({
  		type: String,
  		required: "Please enter your business name"
  	},
- 	address: {
+ 	address1: {
  		type: String,
  		required: "Enter the address"
  	},
+  city1: {
+    type: String,
+    required: "Enter the city name"
+  },
+  state1: {
+    type: String,
+    required: "Enter the state name"
+  },
+
+  address2: String,
+  city2: String,
+  state2: String,
+
+  address3: String,
+  city3: String,
+  state3: String,
+
  	description: {
  		type: String,
  		required: "Describe your business"
@@ -19,10 +36,11 @@ var businessSchema = new mongoose.Schema({
  	category: {
  		type: String
  	},
- 	phoneNumber: {
+ 	phoneNumber1: {
  		type: String,
  		required: "Phone Number required"
  	},
+  phoneNumber2: String,
  	imageUrl: {
  		type: String
  	},
