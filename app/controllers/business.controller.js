@@ -1,11 +1,13 @@
 'use strict';
 var mongoose = require('mongoose');
-
-require('../models/business.model');
-
 var formidable = require('formidable');
 var cloudinary = require('cloudinary');
 var twitter = require('twitter');
+
+require('../models/business.model');
+require('../models/user.model');
+
+var Business = mongoose.model('Business');
 
 var twitterClient = new twitter({
   consumer_key: "roDDPkrOcczKD2iAkEJJcOKsT",
@@ -13,10 +15,6 @@ var twitterClient = new twitter({
   access_token_key: "3332398691-7HpOl1Mq3EzWaBC9dnzPCCPRxidjmUonxSkxw6C",
   access_token_secret: "QmdNBqJqXqETAdNhL899T2TzkatiUm7gaLoKNPHlywZmH"
 });
-
-require('../models/user.model');
-
-var Business = mongoose.model('Business');
 
 cloudinary.config({
   cloud_name: "shopal",
@@ -47,6 +45,7 @@ exports.getBusiness = function(req, res) {
     return res.json(business);
   });
 };
+
 exports.getImage = function(req, res, next) {
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, file) {

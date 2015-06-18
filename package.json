@@ -24,7 +24,6 @@
     "cloudinary": "^1.2.1",
     "express": "^4.12.4",
     "formidable": "^1.0.17",
-    "formidable-upload": "0.0.3",
     "jsonwebtoken": "^5.0.1",
     "method-override": "^2.3.3",
     "mongoose": "^4.0.4",
