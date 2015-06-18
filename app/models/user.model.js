@@ -37,23 +37,23 @@ var userSchema = new mongoose.Schema({
 
 });
 
-userSchema.pre('save', function(next){
+userSchema.pre('save', function(next) {
   var user = this;
 
   var currentDate = new Date();
-  
+
   user.updated_at = currentDate;
 
-  if (!user.created_at){
+  if (!user.created_at) {
     user.created_at = currentDate;
   }
 
-  if(!user.isModified('password')){
+  if (!user.isModified('password')) {
     return next();
   }
 
-  bcrypt.hash(user.password, null, null, function(err, hash){
-    if (err){
+  bcrypt.hash(user.password, null, null, function(err, hash) {
+    if (err) {
       return next(err);
     }
     user.password = hash;
@@ -61,7 +61,7 @@ userSchema.pre('save', function(next){
   });
 });
 
-userSchema.methods.comparePassword = function(password){
+userSchema.methods.comparePassword = function(password) {
   var user = this;
   return bcrypt.compareSync(password, user.password);
 };

@@ -3,12 +3,12 @@ var express = require('express');
 
 var router = express.Router();
 
-module.exports = function(app){
+module.exports = function(app) {
   var user = require('../controllers/user.controller');
 
   router.route('/authenticate')
     .post(user.auth);
-    
+
   router.route('/users')
     .get(user.getUsers)
     .post(user.createUser)

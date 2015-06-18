@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.send('welcome to shopal.ng');
 });
 
@@ -28,8 +28,8 @@ require('./passport')(app);
 
 var port = process.env.PORT || 4000;
 
-app.listen(port, function(err){
-  if(err){
+app.listen(port, function(err) {
+  if (err) {
     console.log(err);
   }
   console.log('Server started on port: ' + port);

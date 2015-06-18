@@ -11,13 +11,13 @@ module.exports = function(app) {
 
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      failureRedirect: 'http://localhost:8080/#/'
+      failureRedirect: 'http://andela-eashikodi.github.io/shopal/'
     }),
     function(req, res) {
       var userName = req.user.firstname;
       var jwttoken = userController.generateToken(req.user);
       var userId = req.user._id;
-      res.redirect('http://localhost:8080/#/user/dashboard?token=' + jwttoken + '&userName=' + userName + '&userId=' + userId);
+      res.redirect('http://andela-eashikodi.github.io/shopal/#/user/dashboard?token=' + jwttoken + '&userName=' + userName + '&userId=' + userId);
     });
 
   app.get('/auth/facebook', passport.authenticate('facebook', {
@@ -60,6 +60,7 @@ module.exports = function(app) {
           newUser.lastname = result.last_name;
           newUser.email = result.email;
           newUser.gender = result.gender;
+          newUser.password = "default";
 
           newUser.save(function(err) {
             if (err) {
