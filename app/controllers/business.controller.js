@@ -112,7 +112,8 @@ exports.findUserBusiness = function(req, res) {
   });
 };
 
-exports.notification = function(req, res) {
+exports.paymentNotification = function(req, res) {
   console.log('req', req);
   console.log('res', res);
+  res.redirect('http://localhost:8080/#/user/profile');
 };

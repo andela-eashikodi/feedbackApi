@@ -6,7 +6,7 @@ module.exports = function(app) {
   var business = require('../controllers/business.controller');
 
   router.route('/payment')
-    .post(business.notification);
+    .post(business.paymentNotification);
 
   router.route('/business')
     .post(business.getImage, business.createBusiness)
