@@ -54,8 +54,8 @@ exports.getImage = function(req, res, next) {
       req.body.imageUrl = result.secure_url;
       next();
     }, {
-      width: 200,
-      height: 200
+      width: 400,
+      height: 400
     });
   });
 };
@@ -69,14 +69,24 @@ exports.deleteAll = function(req, res) {
   });
 };
 
-exports.findOne = function(req, res) {
-  Business.find({
-    BusinessName: req.params.BusinessName
-  }, function(err, business) {
+exports.findBusiness = function(req, res) {
+  Business.find({_id: req.params.id}).populate('created_by').exec(function(err, business) {
     if (err) {
       return res.json(err);
     }
     return res.json(business);
+  });
+};
+
+exports.deleteBusiness = function(req, res) {
+  Business.remove({_id: req.params.id}, function(err, business) {
+    if(err) {
+      return res.json(err);
+    }
+    return res.json({
+      success: true,
+      message: "business deleted"
+    });
   });
 };
 
@@ -100,4 +110,9 @@ exports.findUserBusiness = function(req, res) {
     }
     return res.json(business);
   });
+};
+
+exports.notification = function(req, res) {
+  console.log('req', req);
+  console.log('res', res);
 };

@@ -111,9 +111,8 @@ exports.deleteAll = function(req, res) {
 };
 
 exports.findUser = function(req, res) {
-
-  User.findOne({
-    email: req.params.email
+  User.find({
+    _id: req.params.id
   }, function(err, user) {
     if (err) {
       return res.json(err);
@@ -135,18 +134,18 @@ exports.getMe = function(req, res) {
 
 exports.updateUser = function(req, res) {
   User.update({
-    email: req.params.email
+    _id: req.params.id
   }, req.body, function(err, user) {
     if (err) {
       return res.json(err);
     }
-    exports.findUser(req, res);
+      exports.findUser(req, res);
   });
 };
 
 exports.deleteUser = function(req, res) {
   User.remove({
-    email: req.params.email
+    _id: req.params.id
   }, function(err, user) {
     if (err) {
       return res.json(err);
