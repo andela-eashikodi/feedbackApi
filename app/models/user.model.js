@@ -27,7 +27,7 @@ var userSchema = new mongoose.Schema({
     required: true
   },
 
-  phone_number: Number,
+  phone_number: String,
 
   gender: String,
 
