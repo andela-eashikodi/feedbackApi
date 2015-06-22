@@ -14,7 +14,7 @@ module.exports = function(app) {
     .post(user.createUser)
     .delete(user.deleteAll);
 
-  router.route('/user/:email')
+  router.route('/user/:id')
     .get(user.findUser)
     .put(user.updateUser)
     .delete(user.deleteUser);
