@@ -113,7 +113,8 @@ exports.findUserBusiness = function(req, res) {
 };
 
 exports.paymentNotification = function(req, res) {
-  console.log('req', req);
-  console.log('res', res);
-  res.redirect('http://localhost:8080/#/user/profile');
+  // console.log('req', req);
+  // console.log('res', res);
+  // res.redirect('http://localhost:8080/#!/user/profile');
+  res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile');
 };
