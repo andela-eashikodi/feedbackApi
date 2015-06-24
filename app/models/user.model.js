@@ -24,6 +24,8 @@ var userSchema = new mongoose.Schema({
     required: true
   },
 
+  premiumStatus: String,
+
   phone_number: String,
 
   gender: String,

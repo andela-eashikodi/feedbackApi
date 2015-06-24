@@ -3,11 +3,15 @@ var mongoose = require('mongoose');
 var formidable = require('formidable');
 var cloudinary = require('cloudinary');
 var twitter = require('twitter');
+var request = require("request");
+var nodemailer = require("nodemailer");
+var transporter = nodemailer.createTransport();
 
 require('../models/business.model');
 require('../models/user.model');
 
 var Business = mongoose.model('Business');
+var User = mongoose.model('User');
 
 var twitterClient = new twitter({
   consumer_key: "roDDPkrOcczKD2iAkEJJcOKsT",
@@ -91,9 +95,7 @@ exports.deleteBusiness = function(req, res) {
 };
 
 exports.findCategory = function(req, res) {
-  Business.find({
-    category: req.params.category
-  }, function(err, business) {
+  Business.find({category: req.params.category}).populate('created_by').exec(function(err, business) {
     if (err) {
       return res.json(err);
     }
@@ -112,9 +114,42 @@ exports.findUserBusiness = function(req, res) {
   });
 };
 
+var checkRequest = function(str) {
+  var info = str.split("-");
+  return {
+    'userId': info[0],
+    'userName': info[1],
+    'userEmail': info[2]
+  };
+};
+
 exports.paymentNotification = function(req, res) {
-  // console.log('req', req);
-  // console.log('res', res);
-  // res.redirect('http://localhost:8080/#!/user/profile');
-  res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile');
+  var transaction_id = req.body.transaction_id;
+  request("https://voguepay.com/?v_transaction_id=" + transaction_id + "&type=json", function(err, response, body) {
+    var transactionBody = JSON.parse(body);
+    var info = checkRequest(transactionBody.merchant_ref);
+    if (transactionBody.status && transactionBody.status === "Approved") {
+      var message = "Hello " + info.userName + ", You have successfully switched to shopal premium account";
+      var mailOptions = {
+        from: "Shopal Nigeria ✔ <no-reply@shopalng.com>",
+        to: info.userEmail,
+        subject: "Shopal premium",
+        html: "<b>" + message + "</b>"
+      };
+
+      User.findByIdAndUpdate(info.userId, {premiumStatus: 'true'}, function(err, user) {
+        if(err){
+          console.log(err);
+        }
+        console.log(user);
+      });
+      transporter.sendMail(mailOptions, function(error, response) {
+          if (error) {
+            console.log(error);
+          }
+          // setTimeout(res.redirect('http://localhost:8080/#!/user/profile'), 3000);
+          setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
+        });
+    }
+  });
 };
