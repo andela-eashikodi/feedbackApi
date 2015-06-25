@@ -137,7 +137,14 @@ exports.paymentNotification = function(req, res) {
         html: "<b>" + message + "</b>"
       };
 
-      User.findByIdAndUpdate(info.userId, {premiumStatus: 'true'}, function(err, user) {
+      var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+
+      var date = new Date();
+      var exp_date = date.getDate()+'/'+(monthNames[date.getMonth()])+'/'+(date.getFullYear()+1);
+
+      User.findByIdAndUpdate(info.userId, {premiumStatus: 'true', premiumExpiryDate: exp_date}, function(err, user) {
         if(err){
           console.log(err);
         }
@@ -147,8 +154,8 @@ exports.paymentNotification = function(req, res) {
           if (error) {
             console.log(error);
           }
-          // setTimeout(res.redirect('http://localhost:8080/#!/user/profile'), 3000);
-          setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
+          setTimeout(res.redirect('http://localhost:8080/#!/user/profile'), 3000);
+          // setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
         });
     }
   });

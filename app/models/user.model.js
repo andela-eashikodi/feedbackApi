@@ -26,6 +26,8 @@ var userSchema = new mongoose.Schema({
 
   premiumStatus: String,
 
+  premiumExpiryDate: String,
+
   phone_number: String,
 
   gender: String,
