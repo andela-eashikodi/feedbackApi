@@ -74,7 +74,9 @@ exports.deleteAll = function(req, res) {
 };
 
 exports.findBusiness = function(req, res) {
-  Business.find({_id: req.params.id}).populate('created_by').exec(function(err, business) {
+  Business.find({
+    _id: req.params.id
+  }).populate('created_by').exec(function(err, business) {
     if (err) {
       return res.json(err);
     }
@@ -83,8 +85,10 @@ exports.findBusiness = function(req, res) {
 };
 
 exports.deleteBusiness = function(req, res) {
-  Business.remove({_id: req.params.id}, function(err, business) {
-    if(err) {
+  Business.remove({
+    _id: req.params.id
+  }, function(err, business) {
+    if (err) {
       return res.json(err);
     }
     return res.json({
@@ -95,7 +99,9 @@ exports.deleteBusiness = function(req, res) {
 };
 
 exports.findCategory = function(req, res) {
-  Business.find({category: req.params.category}).populate('created_by').exec(function(err, business) {
+  Business.find({
+    category: req.params.category
+  }).populate('created_by').exec(function(err, business) {
     if (err) {
       return res.json(err);
     }
@@ -111,6 +117,40 @@ exports.findUserBusiness = function(req, res) {
       return res.json(err);
     }
     return res.json(business);
+  });
+};
+
+exports.sendMail = function(req, res) {
+  var data = req.body;
+  transporter.sendMail({
+    from: "Shopal Nigeria ✔ <no-reply@shopalng.com>",
+    to: data.ownerMail,
+    subject: data.timeTaken + " booked by " + data.contactName + " on " + data.businessName,
+    text: "Hello Dear, " + data.contactName + " just booked for " + data.timeTaken
+  }, function(err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+    }
+  });
+  res.json(data);
+};
+
+exports.getMail = function(req, res) {
+  var data = req.body;
+  transporter.sendMail({
+    from: "Shopal Nigeria ✔ <no-reply@shopalng.com>",
+    to: data.recipient,
+    subject: "Confirmation of appointment booking",
+    text: "Hello Dear, This is a confirmation of your appointment with " + data.businessName + " for " + data.timeTaken
+  }, function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log(result);
+    }
   });
 };
 
@@ -134,7 +174,7 @@ exports.paymentNotification = function(req, res) {
         from: "Shopal Nigeria ✔ <no-reply@shopalng.com>",
         to: info.userEmail,
         subject: "Shopal premium",
-        html: "<b>" + message + "</b>"
+        text: message
       };
 
       var monthNames = ["January", "February", "March", "April", "May", "June",
@@ -142,21 +182,27 @@ exports.paymentNotification = function(req, res) {
       ];
 
       var date = new Date();
-      var exp_date = date.getDate()+'/'+(monthNames[date.getMonth()])+'/'+(date.getFullYear()+1);
+      var exp_date = date.getDate() + '/' + (monthNames[date.getMonth()]) + '/' + (date.getFullYear() + 1);
 
-      User.findByIdAndUpdate(info.userId, {premiumStatus: 'true', premiumExpiryDate: exp_date}, function(err, user) {
-        if(err){
+      User.findByIdAndUpdate(info.userId, {
+        premiumStatus: 'true',
+        premiumExpiryDate: exp_date
+      }, function(err, user) {
+        if (err) {
           console.log(err);
         }
         console.log(user);
       });
       transporter.sendMail(mailOptions, function(error, response) {
-          if (error) {
-            console.log(error);
-          }
-          setTimeout(res.redirect('http://localhost:8080/#!/user/profile'), 3000);
-          // setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
-        });
+        if (error) {
+          console.log(error);
+        }
+        // setTimeout(res.redirect('http://localhost:8080/#!/user/profile'), 3000);
+        setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
+      });
+    }
+    else {
+      setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
     }
   });
 };

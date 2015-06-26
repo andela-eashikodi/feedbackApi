@@ -23,5 +23,11 @@ module.exports = function(app) {
   router.route('/business/user/:createdby')
     .get(business.findUserBusiness);
 
+  router.route('/postMail')
+    .post(business.sendMail);
+
+  router.route('/getMail')
+    .post(business.getMail);
+
   app.use('/api', router);
 };
