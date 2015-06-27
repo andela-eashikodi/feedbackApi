@@ -174,7 +174,7 @@ exports.paymentNotification = function(req, res) {
         from: "Shopal Nigeria ✔ <no-reply@shopalng.com>",
         to: info.userEmail,
         subject: "Shopal premium",
-        text: message
+        html: "<b>" + message + "</b>"
       };
 
       var monthNames = ["January", "February", "March", "April", "May", "June",
