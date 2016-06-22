@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('shopal')
   .controller('businessCtrl', ['$rootScope', '$scope', 'businessService', 'userService', 'Upload', '$location', '$mdDialog', '$mdToast', '$stateParams', '$firebaseObject', '$http',function($rootScope, $scope, businessService, userService, Upload, $location, $mdDialog, $mdToast, $stateParams, $firebaseObject, $http) {
 

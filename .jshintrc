@@ -1,5 +1,4 @@
 {
-  "globalstrict": true,
   "globals": {
     "process": true,
     "require": true,
