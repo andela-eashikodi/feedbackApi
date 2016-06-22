@@ -1,0 +1,61 @@
+<div ng-controller="loginCtrl" layout="column">
+  <md-toolbar class="md-medium-tall" ng-controller="SidebarCtrl">
+    <div layout="row">
+      <h2 flex offset="5">
+      <md-button ng-if="loggedIn" ng-click="toggleLeft();toggleText()" aria-label="toggle">
+        <md-icon md-svg-src="libs/angular-material/demos/toolbar/demoBasicUsage/img/icons/menu.svg"></md-icon>
+      </md-button>
+        <span ng-hide="shopal" style="cursor:pointer" ui-sref="home" >ShoPAL</span>
+      </h2>
+      <md-button ng-if="!loggedIn" ng-click="userSignIn()">Sign In / Sign Up</md-button>
+      <div style="margin-top:20px;margin-right:40px" class="dropdown">
+        <md-button ng-if="loggedIn" style="background:#38a152" ui-sref="user.profile">Welcome {{userName}}</md-button>
+        <ul class="dropdown-menu">
+          <li>
+            <a ui-sref="user.profile">
+              My Profile
+            </a>
+          </li>
+          <li>
+            <a ui-sref="user.dashboard">
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="" ng-click="logout($event)">
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </md-toolbar>
+  <section ng-controller="SidebarCtrl">
+    <md-sidenav ng-if="loggedIn" class="md-sidenav-left md-whiteframe-z1" md-component-id="left">
+      <md-toolbar class="md-medium-tall">
+        <div>
+          <h2 flex offset="20">
+            <md-button ng-click="close();toggleText()" aria-label="close">
+              <md-icon md-svg-src="libs/angular-material/demos/toolbar/demoBasicUsage/img/icons/menu.svg"></md-icon>
+            </md-button>
+            <span style="cursor:pointer" ui-sref="home" >ShoPAL</span>
+          </h2>
+        </div>
+      </md-toolbar>
+      <md-content>
+        <md-toolbar style="background:#ffffff"></md-toolbar>
+        <md-button ui-sref=".dashboard" ng-click="close();toggleText()">
+          <span>  </span>DashBoard
+        </md-button><br>
+        <md-button ui-sref=".profile" ng-click="close();toggleText()">
+          <span>  </span>View My Profile
+        </md-button>
+      </md-content>
+    </md-sidenav>
+    <md-content>
+      <md-content>
+        <div ui-view></div>
+      </md-content>
+    </md-content>
+  </section>
+</div>

@@ -1,0 +1,76 @@
+<div ng-controller="businessCtrl">
+  <div layout="row" style="padding-left:1em;margin:0 20px">
+    <div flex>
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="{{businessDetail.name}}">
+          <md-content class="md-padding">
+          <img ng-src="{{businessDetail.imageUrl}}"><br>
+          <div><strong>Added by: </strong> <a ng-click="userInfo($event, businessDetail)">{{businessDetail.created_by.firstname}} {{businessDetail.created_by.lastname}}</a></div>
+          </md-content>
+        </md-tab>
+        <md-tab label="Description">
+          <br>
+          <strong>Business Name: {{businessDetail.name}}</strong><br><br>
+          <strong>Category: {{businessDetail.category}}</strong><br><br>
+          <strong>Address: {{businessDetail.address1}} {{businessDetail.city1}}, {{businessDetail.state1}}</strong><br><br>
+          <strong>Address2: {{businessDetail.address2}} {{businessDetail.city2}} {{businessDetail.state2}}</strong><br><br>
+          <strong>Address3: {{businessDetail.address3}} {{businessDetail.city3}} {{businessDetail.state3}}</strong><br><br>
+          <strong>Description: {{businessDetail.description}}</strong><br><br>
+          <strong>phoneNumber1: {{businessDetail.phoneNumber1}}</strong><br><br>
+          <strong>phoneNumber2: {{businessDetail.phoneNumber2}}</strong><br><br>
+        </md-tab>
+        <md-tab label="Book Appointment">
+        <div class="md-padding" ng-if = "!days">Appointment booking is yet to be opened</div>
+          <md-content ng-if="loggedIn" class="md-padding">
+          <h3>{{week}}</h3>
+            <div ng-repeat="day in days" style="display:inline-block;margin:0 2px">  
+              <h2>{{ day.name }}</h2>
+              <div class="time-slot" ng-repeat="slot in day.slots">    
+                <input ng-if="userId!==businessDetail.created_by._id && !slot.blocked" style="cursor:pointer" type="checkbox" id="{{ day.name }}-{{ $index }}" ng-click="bookAppointment(businessDetail.created_by.email, slot.time, businessDetail.name, day.name)" ng-model="slot.booked" ng-disabled="slot.booked">
+                <label for="{{ day.name }}-{{ $index }}">{{ slot.time }}
+                  <span ng-if="slot.booked">Booked !</span>
+                  <span ng-if="!slot.booked && !slot.blocked">Available</span>
+                  <span ng-if="slot.blocked">Blocked !</span>
+                  <a ng-if="userId===businessDetail.created_by._id" style="color:red" ng-click="slot.blocked ? slot.blocked = false : slot.blocked = true;slot.booked=false">x</a>
+                  <br><br><br>
+                </label>
+              </div>
+            </div>
+            <p ng-show="userId===businessDetail.created_by._id">    
+              <md-button class="md-raised" ng-click="reset()" class="btn btn-primary">Open / Reset Appointments</md-button>
+            </p>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+      <div class="md-padding"><strong>{{comments.length}}</strong> Comments <strong>{{sum}}</strong> likes</span></div>
+      <div class="md-padding" ng-if="!loggedIn"><em><a ui-sref="home">sign up or login</a> to comment and book appointments</em></div>
+      <form class="md-padding" ng-if="loggedIn" name="commentForm">
+      <md-input-container ng-show="!loggedIn">
+      <label>Name</label>
+        <input type='text' maxlength = "30" ng-model="message.name">
+      </md-input-container>
+      <md-input-container>
+      <label>Write a comment</label>
+        <input type='text' onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()" maxlength = "160" ng-model="message.text">
+      </md-input-container>
+      <md-button ng-if="message.text" id="btnSearch" ng-disabled="commentForm.$invalid" ng-click="submitComment(message)" class="md-raised">Comment</md-button>
+      <md-button style="display:none">cher</md-button>
+      <md-button ng-hide="likeButton" ng-click="submitLike();likeButton=true" class="md-raised">Like</md-button>
+      <md-button ng-show="likeButton" ng-click="Unlike();likeButton=false" class="md-raised">Unlike</md-button>
+      <md-button ng-hide="saveThis" ng-click="favourite(businessDetail.name, businessDetail._id);saveThis=true" class="md-raised">Save This</md-button>
+      <md-button ng-show="saveThis" ng-click="saveThis=true" class="md-raised">Saved</md-button>
+      </form>
+      <md-content class="md-padding" layout-padding style="background:#f0f0f0;max-height:500px;padding: 10px;">
+        <div data-ng-repeat="comment in comments" data-ng-class="{danger:!comment.active}">
+          <br><strong>{{comment.name}} </strong><br>
+          <span data-ng-hide="editMode">{{comment.text}}<br><br></span>
+          <span data-ng-show="editMode"><input type="text" style="min-width:900px;" data-ng-model="comment.text" data-ng-required /><br><br></span>
+          <em>{{comment.time | date:'medium' }}</em><br><br>
+          <div ng-show="userId===comment.userId"><button type="submit" data-ng-hide="editMode" data-ng-click="editMode = true"><em>edit</em></button><button type="submit" data-ng-show="editMode" data-ng-click="saveEdit(comment.key, comment.text);editMode=false"><em>save</em></button><button ng-click="deleteComment(comment.key)"><em>delete</em></button></div>
+          <md-divider></md-divider>
+        </div>
+      </md-content>
+      <!-- <dir-disqus disqus-shortname="shopalng" disqus-identifier="{{ businessDetail._id }}" disqus-url="{{ url }}">
+      </dir-disqus>-->
+      </div>
+  </div>

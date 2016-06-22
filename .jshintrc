@@ -1,0 +1,13 @@
+{
+  "globalstrict": true,
+  "globals": {
+    "process": true,
+    "require": true,
+    "console": true,
+    "module": true,
+    "angular": true,
+    "localStorage": true,
+    "$": true,
+    "Firebase": true
+  }
+}

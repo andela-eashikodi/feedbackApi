@@ -1,0 +1,189 @@
+
+.password_message {
+  margin-top:-10px;
+  height:20px;
+  font-size:10px;
+  color:red
+}
+
+.user_header {
+  background:#cccccc;
+  color:black
+}
+
+.content_background {
+  background:#f0f0f0
+}
+
+.content_div {
+  margin:40px 40px;
+  background:#ffffff;
+  height:700px
+}
+
+.searchBox {
+  border-radius: 10px;
+  padding: 5px;
+  
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    display: none;
+    margin: 0;
+    z-index: 1;
+
+    /****************
+     ** NEW STYLES **
+     ****************/
+
+    list-style: none; /** Remove list bullets */
+    width: 100%; /** Set the width to 100% of it's parent */
+    padding: 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/** Button Styles **/
+.dropdown button {
+    background: #38a152;
+    color: #FFFFFF;
+    border: none;
+    margin: 0;
+    padding: 0.4em 0.8em;
+    font-size: 1em;
+}
+
+/** List Item Styles **/
+.dropdown a {
+    display: block;
+    padding: 0.2em 0.8em;
+    text-decoration: none;
+    background: #7f7f7f;
+    color: #000000;
+}
+
+/** List Item Hover Styles **/
+.dropdown a:hover {
+    background: #38a152;
+}
+
+.plan {
+  width: 300px;
+  height: 180px;
+  position: relative;
+  background: #34495e;
+  padding: 22px 22px;
+  text-align: center;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.detail {
+  width: 300px;
+  height: 150px;
+  position: relative;
+  background: #f0f0f0;
+  padding: 22px 22px;
+  text-align: center;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.plan_text {
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 24px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.btn-custom {
+  color: #bdc3c7;
+  font-size: 18px;
+  border: 1px solid #bdc3c7;
+}
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: inherit;
+  background-image: none;
+  border-radius: 4px;
+  margin: auto;
+}
+
+/* checkbox - each time slot */
+.time-slot               {  }
+
+/* hide the checkbox itself - the label will be styled */
+.time-slot input     { 
+  display:none; 
+}
+
+/* default styling for our labels */
+.time-slot label     { 
+   
+  color:#000000; 
+  cursor:pointer; 
+  background:#EEE; 
+  border-radius:5px; 
+  transition:0.3s ease all;
+}
+
+/* if the label is checked */
+.time-slot input:checked ~ label { 
+  background:#f2dede; 
+  cursor:not-allowed;
+  animation:flashBooked 0.5s ease; 
+}
+
+/* if the label is not checked */
+.time-slot input:not(:checked) ~ label { 
+  background:teal; 
+  animation:flashAvailable 0.5s ease; 
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{  
+  .time-slot label {
+        padding:10px 20px;
+    }
+
+  .logView {
+    height: 29em;
+  }
+
+  .dashView {
+    height: 500px;
+  }
+}
+
+/* animation for the time slot to flash red */
+@keyframes flashBooked {
+  0%, 100%  { background:#f2dede; transform:scale(1); }
+  50%       { background:#F99090; transform:scale(1.5); }
+}
+
+@keyframes flashBlocked {
+  0%, 100%  { background:#f2dede; transform:scale(1); }
+  50%       { background:#F99090; transform:scale(1.5); }
+}
+
+/* animation for the time slot to flash green */
+@keyframes flashAvailable {
+  0%, 100%  { background:#6AB074; transform:scale(1); }
+  50%       { background:rgb(119, 218, 78); transform:scale(1.5); }
+}

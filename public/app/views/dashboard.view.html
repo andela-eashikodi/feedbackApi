@@ -1,0 +1,51 @@
+<div ng-controller="businessCtrl" data-ng-init="dashboard()">
+  <md-toolbar style="background:#cccccc;color:black;z-index:0">
+    <div class="md-toolbar-tools">
+      <strong flex>DashBoard</strong>
+      <md-select hide-sm ng-show="search" placeholder="Filter by location" ng-model="find.state1">
+        <md-option value="">ALL</md-option>
+        <md-option ng-repeat="state in states" value="{{state.item}}">{{state.item}}</md-option>
+      </md-select>
+      <input hide-sm class="searchBox" ng-show="search" type="text" ng-model="find.name" placeholder="search business name" />
+      <md-button hide-sm aria-label="search" ng-click="search=true">
+        <md-icon md-svg-src="assets/img/active-search.svg"></md-icon>
+      </md-button>
+      <md-button ng-if="loggedIn" class="md-raised" ui-sref="user.business">
+        Add Business
+      </md-button>
+      <md-button ng-if="!loggedIn" class="md-raised" ng-click="createAccount($event)">
+        Add Business
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-divider></md-divider>
+  <md-toolbar style="background:#fcfcfc;z-index:0">
+  <div layout="row">
+    <md-button style="color:black" ng-click="dashboard()">All</md-button>
+    <md-button style="color:black" ng-click="dashboardCategory('Fashion Designer')">Fashion Designers</md-button>
+    <md-button style="color:black" ng-click="dashboardCategory('Hair Stylist')">Hair Stylists</md-button>
+    <md-button style="color:black" ng-click="dashboardCategory('Make-up Artist')">MakeUp Artist</md-button>
+    <md-button style="color:black" ng-click="dashboardCategory('Boutiques')">Boutiques</md-button>
+    <md-button style="color:black" ng-click="dashboardCategory('Restaurant&amp;Bars')">Resturants &amp; Bars</md-button>
+    <md-button style="color:black" ng-click="dashboardCategory('Wire work')">Wire Works</md-button>
+    <md-button style="color:black" ng-click="dashboardCategory('Others')">Others</md-button>
+  </div>
+  </md-toolbar>
+  <md-content class="md-padding" flex>
+    <div ng-repeat="log in filtered = (logs | filter: find) | orderBy: '-created_at' ">
+      <md-card class="dashView" style="margin-left:10px;float:left;">
+        <img class="log-pic" ng-src="{{log.imageUrl}}" style="width:350px;height:200px;">
+        <md-card-content>
+          <a ui-sref="user.businessInfo({logid: log._id})"><h2 class="md-title"><strong>{{log.name}}</strong></h2></a>
+          <p>{{(log.description).substring(0, 30)+'...'}}</p><br>
+        </md-card-content><br><br>
+        <md-divider></md-divider><br>
+        <a class="md-actions" layout="row" layout-align="start center" style="text-decoration:none">
+          <md-button ng-click="userInfo($event, log)">{{log.created_by.firstname}} {{log.created_by.lastname}}</md-button>
+        </a><br>
+      </md-card>
+    </div>
+    <h1 ng-show="noResult"><strong>No results found</strong></h1>
+    <h1 ng-if="filtered <= 0"><strong>No results found</strong></h1>
+  </md-content>
+</div>

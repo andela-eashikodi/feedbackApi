@@ -11,15 +11,13 @@ module.exports = function(app) {
 
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      failureRedirect: 'http://andela-eashikodi.github.io/shopal/#!/home/'
-      // failureRedirect: 'http://localhost:8080/#!/home/'
+      failureRedirect: '/#!/home/'
     }),
     function(req, res) {
       var userName = req.user.firstname;
       var jwttoken = userController.generateToken(req.user);
       var userId = req.user._id;
-      res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/dashboard?token=' + jwttoken + '&userName=' + userName + '&userId=' + userId);
-      // res.redirect('http://localhost:8080/#!/user/dashboard?token=' + jwttoken + '&userName=' + userName + '&userId=' + userId);
+      res.redirect('/#!/user/dashboard?token=' + jwttoken + '&userName=' + userName + '&userId=' + userId);
     });
 
   app.get('/auth/facebook', passport.authenticate('facebook', {

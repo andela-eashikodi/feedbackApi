@@ -1,0 +1,227 @@
+<div ng-if="loggedIn" ng-include="'app/views/user.view.html'"></div>
+<div ng-controller="loginCtrl" class="wrap">
+  <div class="header" ng-if="!loggedIn">
+    <div class="grid">
+      <div class="col w-1-1">
+        <a href="" class="logo" title="Wodco"></a>
+        <nav class="menu">
+          <ul>
+            <li>
+              <a class="login" href="#login">
+                <button ng-if="!loggedIn" class="login">Log in</button>
+              </a>
+              <button style="background:#44b669;border:1px solid #38a152;border-radius:3px;color:white;font-weight:500" ng-if="loggedIn" ui-sref="user.profile">My Profile</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <md-progress-linear ng-show="progress_bar" md-mode="indeterminate"></md-progress-linear>
+    </div>
+  </div>
+
+  <div class="hero" ng-if="!loggedIn">
+    <div class="grid">
+      <div class="col w-1-2 fadeIn animated">
+        <h1 style="margin-top:-2em">Welcome to ShoPAL.</h1>
+        <p>Find shops and businesses EVERYWHERE.<br>Want people to know about your business? Register Here</p>
+        <a href="/auth/facebook"><img style="width:14em" src="assets/img/new_login.png"></a>
+      </div>
+      <div id="getstarted" class="bounce animated">
+        <div class="col w-1-3 clearfix" style="float: right; width: 24em; margin-right: 2.5em; margin-top: -6em;">
+          <h1 style="text-shadow: none">Get started</h1>
+          <form action="" name="userForm">
+            <input type="text" ng-model="user.firstname" class="first" placeholder="First Name" autofocus="autofocus" maxlength="18" required>
+            <input type="text" ng-model="user.lastname" class="last" placeholder="Last Name" maxlength="18" required>
+            <input type="email" ng-model="user.email" placeholder="Enter Valid Email" maxlength="30" required>
+            <input type="password" name="password" ng-model="user.password" placeholder="Your Password" ng-minlength="6" ng-maxlength="20" ng-required="true">
+            <div ng-messages="userForm.password.$error">
+              <div class="password_message" ng-message="minlength">Enter a minimun of 6 characters</div>
+              <div class="password_message" ng-message="maxlength">Can not be more than 20 characters</div>
+            </div>
+            <a>
+              <button ng-click="addUser()" class="large-btn icon-arrow-right">Create Account</button>
+            </a>
+          </form>
+          <p class="privacy">By clicking "Create Account" you are agreeing to our terms.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="features" layout="row" style="padding-left:1em;margin:0 20px" ng-controller="businessCtrl" data-ng-init="dashboard()">
+    <div flex>
+      <md-toolbar style="background:#f0f0f0;color:black;z-index:0">
+        <div class="md-toolbar-tools">
+          <strong flex>Recently Added Businesses...</strong>
+          <md-button class="md-raised" ui-sref="user.dashboard">
+            View More...
+          </md-button>
+        </div>
+      </md-toolbar>
+      <div ng-repeat="log in logs | orderBy: '-created_at' | limitTo: 5 ">
+        <md-card class="logView" style="margin-left: 10px; float: left; width:14em">
+          <img ng-src="{{log.imageUrl}}" style="width:14em;height:14em">
+          <md-card-content>
+            <a ui-sref="user.businessInfo({logid: log._id})"><h2 class="md-title"><strong>{{log.name}}</strong></h2></a>
+            <p>{{(log.description).substring(0, 20)+'...'}}</p>
+          </md-card-content>
+          <br>
+          <br>
+          <md-divider></md-divider>
+          <a class="md-actions" layout="row" layout-align="start center" style="text-decoration:none">
+            <md-button ng-click="userInfo($event, log)">{{log.created_by.firstname}} {{log.created_by.lastname}}</md-button>
+          </a>
+        </md-card>
+      </div>
+    </div>
+  </div>
+  <div class="feature-slider">
+    <div class="grid">
+      <div id="slider">
+        <ul class="bjqs">
+          <li>
+            <div class="col w-1-2">
+              <img src="assets/img/fashion-designer.jpg" class="img" width="376px" height="273px">
+            </div>
+            <div class="col w-1-2">
+              <div class="icon clearfix"></div>
+              <h3>Put your skills &amp; business online</h3>
+              <p>Sign Up and register your business to help people find you.</p>
+            </div>
+          </li>
+          <li>
+            <div class="col w-1-2">
+              <img src="assets/img/maps.jpg" class="img" width="376px" height="273px">
+            </div>
+            <div class="col w-1-2">
+              <div class="icon clearfix"></div>
+              <h3>Search for a business around </h3>
+              <p>Find shops and business centers around you and book apointments.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="features">
+    <div class="grid">
+      <div class="col w-1-2">
+        <h3>Do You Have Fashion Skills?</h3>
+        <img src="assets/img/makeup.jpg" class="img" width="406px" height="255px">
+        <p>ShoPAL lets you advertise them and put up pictures of your work. Get more customers today! Register Now.</p>
+      </div>
+      <div class="col w-1-2">
+        <h3> Do You Own a Business? </h3>
+        <img src="assets/img/openbusiness.jpg" class="img" width="406px" height="255px">
+        <p>Get your Business seen by thousands of people daily. Join the ShoPAL community today! Register Now.</p>
+      </div>
+    </div>
+  </div>
+  <div class="testimonials">
+    <div class="grid">
+      <div class="col w-1-1 quote-header">
+        <h3>Here's what people <strong>are</strong> saying about shoPAL</h3>
+        <p> </p>
+      </div>
+      <div class="col w-1-3">
+        <div class="quote-wrapper">
+          <div class="quote">
+            <p>Searching for a business around the city is much better with shoPAL. I instantly get connected to a business owner. This is Awesome! </p>
+          </div>
+          <div class="arrow-down"></div>
+        </div>
+        <div class="author-info">
+          <img src="assets/img/customershopal.jpg" class="author-img" width="60px" height="60px">
+          <p>Chioma Okeke</p>
+          <span>Banker</span>
+        </div>
+      </div>
+      <div class="col w-1-3">
+        <div class="quote-wrapper">
+          <div class="quote">
+            <p>Being a fashion designer has been more fun for me since i joined shoPAL. I get connected to well meaning individuals in the city.</p>
+          </div>
+          <div class="arrow-down"></div>
+        </div>
+        <div class="author-info">
+          <img src="assets/img/kodi.jpg" class="author-img" width="60px" height="60px">
+          <p>Kodi</p>
+          <span>Fashion Designer</span>
+        </div>
+      </div>
+      <div class="col w-1-3">
+        <div class="quote-wrapper">
+          <div class="quote">
+            <p>Hello, my name is Olatoyosi. I am a make-up artist and a big fan of shoPAL. It's Amazing how business has grown since i joined shoPAL.</p>
+          </div>
+          <div class="arrow-down"></div>
+        </div>
+        <div class="author-info">
+          <img src="assets/img/toyo.jpg" class="author-img" width="60px" height="60px">
+          <p>Olatoyosi Famakinde</p>
+          <span>Make-up Artist</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div class="grid">
+      <div class="col w-1-2 clearfix">
+        &copy; 2015 ShoPAL. All Rights Reserved.
+      </div>
+    </div>
+  </div>
+</div>
+<div id="login" class="zoom-anim-dialog mfp-hide" ng-controller="loginCtrl">
+  <div class="grid">
+    <div class="col w-1-3 clearfix">
+      <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+      <!-- <h1>Sign in</h1> -->
+      <md-card class="md-whiteframe-z2" style="background:#000;color:white" ng-show="errorLogin">
+        <p>Check Login Details</p>
+      </md-card>
+      <md-progress-linear ng-show="login_bar" md-mode="indeterminate"></md-progress-linear>
+      <br>
+      <form action="" name="loginForm">
+        <input type="email" placeholder="Your Email" ng-model="login.email" autofocus required>
+        <input type="password" placeholder="Your Password" ng-model="login.password" required>
+        <a>
+          <button ng-click="loginUser()" class="large-btn">Sign In</button>
+        </a>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="success" class="zoom-anim-dialog mfp-hide">
+  <div class="grid">
+    <div class="col s-1-3 clearfix">
+      <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+      <!-- <h1>Sign in</h1> -->
+      <h1>THANK YOU FOR REGISTERING! <br><br> ShoPAL FULLY LAUNCHES IN FOUR WEEKS TIME. <br><br> WE LOOK FORWARD TO YOUR CONTINOUS SUPPORT</h1>
+      <P>&copy; 2015 ShoPAL.</P>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function() {
+  $('.login').magnificPopup({
+    type: 'inline',
+    fixedContentPos: false,
+    fixedBgPos: true,
+    preloader: false,
+    midClick: true,
+    removalDelay: 300,
+    mainClass: 'zoom-in'
+  });
+});
+
+jQuery(document).ready(function($) {
+  $('#slider').bjqs({
+    height: 275,
+    width: 940,
+    responsive: false,
+    showcontrols: false,
+    showmarkers: true,
+    centermarkers: false,
+  });
+});
+</script>

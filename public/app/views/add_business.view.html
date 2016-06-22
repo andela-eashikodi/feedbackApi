@@ -1,0 +1,99 @@
+<div ng-controller="businessCtrl" data-ng-init="registration()">
+  <md-toolbar style="background:#cccccc;color:black;z-index:0">
+    <div class="md-toolbar-tools">
+      <strong>Put your business online</strong>
+    </div>
+  </md-toolbar>
+  <div layout="row">
+    <md-content flex>
+      <h1 flex offset="30">Fill In Business Details</h1>
+      <div style="margin:40px 160px">
+        <hr>
+        <form name="businessForm">
+          <md-select flex="30" placeholder="Category" ng-model="business.category" required />
+          <md-option ng-repeat="category in categories" value="{{category.item}}">{{category.item}}</md-option>
+          </md-select>
+          <md-input-container>
+            <label>Business Name</label>
+            <input flex="30" type="text" ng-model="business.name" required />
+          </md-input-container>
+          <div layout="row">
+            <md-input-container flex="50">
+              <label>Address</label>
+              <input type="text" ng-model="business.address1" required />
+            </md-input-container>
+            <md-input-container>
+              <label>City</label>
+              <input type="text" ng-model="business.city1" required />
+            </md-input-container>
+            <md-select placeholder="State" ng-model="business.state1">
+              <md-option ng-repeat="state in states" value="{{state.item}}">{{state.item}}</md-option>
+            </md-select>
+            <md-button ng-hide="checked" class="md-fab" ng-model="checked" ng-init="checked=false" ng-click="checked ? checked=false : checked=true"><strong>+</strong></md-button>
+          </div>
+          <div layout="row" ng-show="checked">
+            <md-input-container flex="50">
+              <label>Address</label>
+              <input type="text" ng-model="business.address2" />
+            </md-input-container>
+            <md-input-container>
+              <label>City</label>
+              <input type="text" ng-model="business.city2" />
+            </md-input-container>
+            <md-select placeholder="State" ng-model="business.state2">
+              <md-option ng-repeat="state in states" value="{{state.item}}">{{state.item}}</md-option>
+            </md-select>
+            <md-button ng-hide="third" class="md-fab" ng-model="third" ng-init="third=false" ng-click="third ? third=false : third=true"><strong>+</strong></md-button>
+            <md-button ng-hide="third" class="md-fab md-warn" ng-model="third" ng-init="third=false" ng-click="checked ? checked=false : checked=true;business.address2='';business.city2='';business.state2=''"><strong>X</strong></md-button>
+          </div>
+          <div layout="row" ng-show="third">
+            <md-input-container flex="50">
+              <label>Address</label>
+              <input type="text" ng-model="business.address3" />
+            </md-input-container>
+            <md-input-container>
+              <label>City</label>
+              <input type="text" ng-model="business.city3" />
+            </md-input-container>
+            <md-select placeholder="State" ng-model="business.state3">
+              <md-option ng-repeat="state in states" value="{{state.item}}">{{state.item}}</md-option>
+            </md-select>
+            <md-button class="md-fab md-warn" ng-model="third" ng-init="third=false" ng-click="third ? third=false : third=true;business.address3='';business.city3='';business.state3=''"><strong>X</strong></md-button>
+          </div>
+          <md-input-container>
+            <label>Business Description</label>
+            <textarea flex="30" ng-model="business.description" required></textarea>
+          </md-input-container>
+          <div layout="row">
+            <md-input-container flex="30">
+              <label>Phone Number</label>
+              <input type="text" ng-model="business.phoneNumber1" required />
+            </md-input-container>
+            <md-button class="md-fab" ng-hide="phone_add" ng-model="phone_add" ng-init="phone_add=false" ng-click="phone_add ? phone_add=false : phone_add=true"><strong>+</strong></md-button>
+          </div>
+          <div layout="row" ng-show="phone_add">
+            <md-input-container flex="30">
+              <label>Phone Number</label>
+              <input type="text" ng-model="business.phoneNumber2" />
+            </md-input-container>
+            <md-button class="md-fab md-warn" ng-click="phone_add=false;business.phoneNumber2='' "><strong>x</strong></md-button>
+          </div>
+          <br>
+          <span md-toolbar-tools>upload business picture</span>
+          <br>
+          <input aria-label="register" type="file" accept="image/*" ngf-select="true" ng-model="business.imageUrl" required />
+          <br>
+          <br>
+          <div layout="row" flex offset="10">
+            <md-progress-linear flex="85" md-mode="indeterminate" ng-show="progressLoad"></md-progress-linear>
+          </div>
+          <div layout="row" flex offset="30" class="md-primary">
+            <md-button ng-disabled="businessForm.$invalid" ng-click="createBusiness(business)" style="background:#104e8b;color:white" flex="40" class="md-raised">
+              Register
+            </md-button>
+          </div>
+        </form>
+      </div>
+    </md-content>
+  </div>
+</div>

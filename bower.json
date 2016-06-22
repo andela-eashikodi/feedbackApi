@@ -1,0 +1,27 @@
+{
+  "name": "shopal",
+  "version": "0.0.0",
+  "homepage": "https://github.com/andela-eashikodi/shopal",
+  "authors": [
+    "andela-eashikodi <emeka.ashikodi@andela.co>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "~0.9.7",
+    "angular": "~1.4.0",
+    "angular-ui-router": "~0.2.15",
+    "angular-messages": "~1.4.0",
+    "ng-file-upload": "~5.0.6",
+    "angular-utils-disqus": "~0.2.0",
+    "angularfire": "~1.1.2"
+  }
+}

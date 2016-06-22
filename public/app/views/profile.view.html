@@ -1,0 +1,134 @@
+<div ng-controller="profileCtrl" data-ng-init="myProfile()">
+  <md-toolbar style="background:#cccccc;color:black;z-index:0">
+    <div class="md-toolbar-tools">
+      <strong flex>My Profile</strong>
+      <md-button hide-sm class="md-raised" ui-sref="user.business">Add Business</md-button>
+    </div>
+  </md-toolbar>
+  <div ng-controller="businessCtrl">
+    <md-content class="md-padding">
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="My Businesses">
+          <md-content class="md-padding">
+            <div layout="row" style="padding-left:1em;margin:0 20px">
+              <div flex>
+                <div ng-repeat="business in myBusinesses | orderBy: '-created_at' ">
+                  <md-card style="margin-left: 10px; float: left; width:300px">
+                    <img ng-src="{{business.imageUrl}}" width="300px" height="300px">
+                    <md-card-content>
+                      <a ui-sref="user.businessInfo({logid: business._id})"><h2 class="md-title"><strong>{{business.name}}</strong></h2></a>
+                      <p>{{(business.description).substring(0, 30) + '...' }}</p>
+                    </md-card-content>
+                  </md-card>
+                </div>
+              </div>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab label="Edit Profile">
+          <md-content class="md-padding">
+            <img src="http://png.findicons.com/files/icons/991/antares/256/users_folder_black.png" style="width:200px">
+            <md-toolbar style="background:#f0f0f0;color:black">
+              <div class="md-toolbar-tools">
+                <strong>Account Information</strong>
+              </div>
+            </md-toolbar>
+            <form>
+              <md-input-container>
+                <label>Firstname</label>
+                <input type="text" ng-model="userInformation.firstname">
+              </md-input-container>
+              <md-input-container>
+                <label>Lastname</label>
+                <input type="text" ng-model="userInformation.lastname">
+              </md-input-container>
+              <md-input-container>
+                <label>email</label>
+                <input type="text" ng-model="userInformation.email">
+              </md-input-container>
+              <md-input-container>
+                <label>Phone Number</label>
+                <input type="text" ng-model="userInformation.phone_number">
+              </md-input-container>
+              <md-button class="md-raised" ng-click="updateUser()"> Save Changes</md-button>
+            </form>
+          </md-content>
+        </md-tab>
+        <md-tab label="Subscription">
+          <md-content class="md-padding">
+            <h2>Dear {{userInformation.firstname}} ,</h2>
+            <div ng-if="!userInformation.premiumStatus">
+              <h3>
+              You are currently on free subscription<br><br>
+              </h3>
+              <div class="plan">
+                <p class="plan_text">Free plan</p>
+                <p class="plan_text">
+                  &#x20A6;0
+                  <span> / year</span>
+                </p>
+                <a style="text-decoration:none" class="btn btn-custom">With 30days advert time</a>
+              </div>
+              <h3>
+              <!-- Switch to premium account today!<br> -->
+              <!-- Pay just &#x20A6;500/year -->
+              </h3>
+              <div class="plan">
+                <p class="plan_text">Premium Account</p>
+                <p class="plan_text">
+                  &#x20A6;500
+                  <span> / year</span>
+                </p>
+                <a style="text-decoration:none" class="btn btn-custom">With 1 year advert time</a>
+              </div>
+               <div style="color:white; font-size:20px">
+                <form method='POST' action='https://voguepay.com/pay/'>
+                  <input type='hidden' name='v_merchant_id' value='6975-0029838' />
+                  <!-- <input type='hidden' name='v_merchant_id' value='demo' /> -->
+                  <input type='hidden' name='merchant_ref' value='{{userInformation._id}}-{{userInformation.lastname}}-{{userInformation.email}}' />
+                  <input type='hidden' name='memo' value='Shopal_ng Premium Account' />
+                  <input type='hidden' name='item_1' value='{{userInformation.firstname}}' />
+                  <input type='hidden' name='description_1' value='Premium Account' />
+                  <input type='hidden' name='price_1' value='500' />
+                  <input type='hidden' name='store_id' value='25' />
+                  <input type='hidden' name='total' value='500' />
+                  <input type='hidden' name='notify_url' value='http://findersapi.herokuapp.com/api/payment' />
+                  <!-- <input type='hidden' name='notify_url' value='http://localhost:4000/api/payment' /> -->
+                  <input type='hidden' name='success_url' value='http://findersapi.herokuapp.com/api/payment' />
+                  <!-- <input type='hidden' name='success_url' value='http://localhost:4000/api/payment' /> -->
+                  <input type='hidden' name='fail_url' value='http://findersapi.herokuapp.com/api/payment' />
+                  <!-- <input type='hidden' name='fail_url' value='http://localhost:4000/api/payment' /> -->
+                  <input type='image' ng-src='http://www.cityofsalem.net/epayments/PublishingImages/pay_online_button.png' alt='Submit' />
+                </form>
+              </div>
+            </div>
+            <div ng-if="userInformation.premiumStatus">
+              <p>
+                <h3>
+              You are currently on premium subscription<br>
+              SUBSCRIPTION EXPIRES: {{userInformation.premiumExpiryDate}}
+            </h3>
+              </p>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab label="Saved">
+          <md-content class="md-padding" layout-padding style="max-height:500px;padding: 10px;">
+            <md-list>
+              <md-subheader class="md-no=sticky"><strong>list of saved business</strong></md-subheader>
+              <md-subheader><a ng-click="removeSaved($event)">clear all</a></md-subheader>
+              <md-divider></md-divider>
+              <md-list-item ng-repeat="item in saved">
+                <a ui-sref="user.businessInfo({logid: item.id})">{{item.name}}</a>
+                <md-list-item>
+                  <a ng-click="deleteItem(item.key)"><em>delete</em></a>
+                </md-list-item>
+              </md-list-item>
+              <md-divider></md-divider>
+            </md-list>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-content>
+  </div>
+</div>

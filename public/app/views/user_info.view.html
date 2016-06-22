@@ -1,0 +1,29 @@
+<md-dialog arial-label="UserInfo" style="width:35em">
+  <md-toolbar style="background:#7f7f7f;color:black">
+    <div class="md-toolbar-tools">
+      <strong flex>{{userDetail.firstname}} {{userDetail.lastname}}</strong>
+    </div>
+  </md-toolbar>
+  <div layout="row" style="padding-left:1em;margin:0 20px">
+    <div flex>
+      <form name="editForm">
+        <md-input-container>
+          <label>Firstname</label>
+          <input type="text" maxlength="15" disabled required ng-model="userDetail.firstname">
+        </md-input-container>
+        <md-input-container>
+          <label>Lastname</label>
+          <input type="text" maxlength="15" disabled required ng-model="userDetail.lastname">
+        </md-input-container>
+        <md-input-container>
+          <label>Phone Number</label>
+          <input type="text" maxlength="13" disabled ng-model="userDetail.phoneNumber">
+        </md-input-container>
+        <md-input-container>
+          <label>Email</label>
+          <input ng-model="userDetail.email" disabled maxlength="15" type="text" required />
+        </md-input-container>
+      </form>
+    </div>
+  </div>
+</md-dialog>

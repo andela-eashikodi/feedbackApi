@@ -29,7 +29,7 @@ exports.auth = function(req, res) {
         });
       } else {
         var token = jwt.sign(user, config[process.env.NODE_ENV]['secret'], {
-          expiresInMinutes: 1440
+          expiresIn: 86400
         });
 
         res.json({
@@ -45,7 +45,7 @@ exports.auth = function(req, res) {
 };
 exports.generateToken = function(user) {
   var token = jwt.sign(user, config[process.env.NODE_ENV]['secret'], {
-    expiresInMinutes: 1440
+    expiresIn: 86400
   });
   return token;
 }
