@@ -4,6 +4,7 @@ var router = express.Router();
 
 module.exports = function(app) {
   var business = require('../controllers/business.controller');
+  var user = require('../controllers/user.controller');
 
   router.route('/payment')
     .post(business.paymentNotification);
@@ -11,11 +12,11 @@ module.exports = function(app) {
   router.route('/business')
     .post(business.getImage, business.createBusiness)
     .get(business.getBusiness)
-    .delete(business.deleteAll);
+    .delete(user.verifyToken, business.deleteAll);
 
   router.route('/business/:id')
     .get(business.findBusiness)
-    .delete(business.deleteBusiness);
+    .delete(user.verifyToken, business.deleteBusiness);
 
   router.route('/business/categories/:category')
     .get(business.findCategory);

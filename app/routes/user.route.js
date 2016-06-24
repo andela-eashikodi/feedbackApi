@@ -10,14 +10,14 @@ module.exports = function(app) {
     .post(user.auth);
 
   router.route('/users')
-    .get(user.getUsers)
+    .get(user.verifyToken, user.getUsers)
     .post(user.createUser)
-    .delete(user.deleteAll);
+    .delete(user.verifyToken, user.deleteAll);
 
   router.route('/user/:id')
-    .get(user.findUser)
-    .put(user.updateUser)
-    .delete(user.deleteUser);
+    .get(user.verifyToken, user.findUser)
+    .put(user.verifyToken, user.updateUser)
+    .delete(user.verifyToken, user.deleteUser);
 
   router.route("/me/:id")
     .get(user.getMe);
