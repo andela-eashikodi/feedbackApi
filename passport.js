@@ -36,8 +36,8 @@ module.exports = function(app) {
   });
 
   passport.use(new FacebookStrategy({
-      clientID: '815850818511954',
-      clientSecret: '9aa55fcd820aec211155496acc4bf017',
+      clientID: process.env.FB_CLIENTID,
+      clientSecret: process.env.FB_CLIENTSECRET,
       callbackURL: '/auth/facebook/callback',
       profileFields: ['id', 'displayName', 'photos', 'gender', 'email', 'first_name', 'last_name'],
       enableProof: false

@@ -3,7 +3,6 @@
 require('../models/user.model');
 
 var mongoose = require('mongoose');
-var config = require('../../config/config');
 var User = mongoose.model('User');
 var jwt = require('jsonwebtoken');
 
@@ -28,7 +27,7 @@ exports.auth = function(req, res) {
           message: 'auth failed'
         });
       } else {
-        var token = jwt.sign(user, config[process.env.NODE_ENV]['secret'], {
+        var token = jwt.sign(user, process.env.NODE_SECRET, {
           expiresIn: 86400
         });
 
@@ -44,16 +43,17 @@ exports.auth = function(req, res) {
   });
 };
 exports.generateToken = function(user) {
-  var token = jwt.sign(user, config[process.env.NODE_ENV]['secret'], {
+  var token = jwt.sign(user, process.env.NODE_SECRET, {
     expiresIn: 86400
   });
   return token;
-}
+};
+
 exports.verifyToken = function(req, res, next) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
   if (token) {
-    jwt.verify(token, config[process.env.NODE_ENV]['secret'], function(err, decoded) {
+    jwt.verify(token, process.env.NODE_SECRET, function(err, decoded) {
       if (err) {
         return res.json({
           success: false,

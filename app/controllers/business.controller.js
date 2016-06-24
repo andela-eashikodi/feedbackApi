@@ -197,12 +197,11 @@ exports.paymentNotification = function(req, res) {
         if (error) {
           console.log(error);
         }
-        // setTimeout(res.redirect('http://localhost:8080/#!/user/profile'), 3000);
-        setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
+        setTimeout(res.redirect('/#!/user/profile'), 3000);
       });
     }
     else {
-      setTimeout(res.redirect('http://andela-eashikodi.github.io/shopal/#!/user/profile'), 3000);
+      setTimeout(res.redirect('/#!/user/profile'), 3000);
     }
   });
 };

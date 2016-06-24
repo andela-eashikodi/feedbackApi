@@ -7,6 +7,7 @@
     "angular": true,
     "localStorage": true,
     "$": true,
-    "Firebase": true
+    "Firebase": true,
+    "exports": true
   }
 }

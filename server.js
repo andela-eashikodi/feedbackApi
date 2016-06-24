@@ -1,13 +1,13 @@
 'use strict';
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+require('dotenv').config();
+var env = process.env.NODE_ENV || 'development';
 var express = require('express');
 var app = express();
-var config = require('./config/config');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var path = require('path');
 var appDir = path.dirname(require.main.filename);
-mongoose.connect(config[process.env.NODE_ENV].url);
+mongoose.connect(process.env.MONGOLAB_URI);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
